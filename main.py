@@ -6,7 +6,15 @@ from datetime import datetime, timedelta
 import requests
 from PIL import Image, ImageTk
 from tkinter import messagebox,ttk
-from timezonefinder import TimezoneFinder       
+from timezonefinder import TimezoneFinder 
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+api_key = os.getenv("api_key")
+
+
 
 root=Tk()
 root.title("Weather App")
@@ -31,10 +39,9 @@ def getweather():
    current_time = local_time.strftime("%I:%M %p")
    clock.config(text=current_time)
 
-   api_key = "365e9749ef3f0c8169b645a3e67d2082"
    api = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric"
    try:
-      resp = requests.get(api, timeout=10)
+      resp = requests.get(api, timeout=30)
       if resp.status_code != 200:
          messagebox.showerror("Error", f"Weather API error: {resp.status_code}")
          return
